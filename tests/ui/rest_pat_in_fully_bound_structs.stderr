@@ -1,5 +1,5 @@
 error: unnecessary use of `..` pattern in struct binding. All fields were already bound
-  --> tests/ui/rest_pat_in_fully_bound_structs.rs:23:9
+  --> tests/ui/rest_pat_in_fully_bound_structs.rs:59:9
    |
 LL |         A { a: 5, b: 42, c: "", .. } => {}, // Lint
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -13,7 +13,7 @@ LL +         A { a: 5, b: 42, c: "",  } => {}, // Lint
    |
 
 error: unnecessary use of `..` pattern in struct binding. All fields were already bound
-  --> tests/ui/rest_pat_in_fully_bound_structs.rs:25:9
+  --> tests/ui/rest_pat_in_fully_bound_structs.rs:61:9
    |
 LL |         A { a: 0, b: 0, c: "", .. } => {}, // Lint
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -25,7 +25,7 @@ LL +         A { a: 0, b: 0, c: "",  } => {}, // Lint
    |
 
 error: unnecessary use of `..` pattern in struct binding. All fields were already bound
-  --> tests/ui/rest_pat_in_fully_bound_structs.rs:32:9
+  --> tests/ui/rest_pat_in_fully_bound_structs.rs:68:9
    |
 LL |         A { a: 0, b: 0, c: "", .. } => {}, // Lint
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -36,5 +36,52 @@ LL -         A { a: 0, b: 0, c: "", .. } => {}, // Lint
 LL +         A { a: 0, b: 0, c: "",  } => {}, // Lint
    |
 
-error: aborting due to 3 previous errors
+error: unnecessary use of `..` pattern in struct binding. All fields were already bound
+  --> tests/ui/rest_pat_in_fully_bound_structs.rs:100:9
+   |
+LL |     let S { a, b, c, .. } = s;
+   |         ^^^^^^^^^^^^^^^^^
+   |
+help: consider removing `..` from this binding
+   |
+LL -     let S { a, b, c, .. } = s;
+LL +     let S { a, b, c,  } = s;
+   |
+
+error: unnecessary use of `..` pattern in struct binding. All fields were already bound
+  --> tests/ui/rest_pat_in_fully_bound_structs.rs:119:9
+   |
+LL |         span
+   |         ^^^^
+   |
+help: consider removing `..` from this binding
+   |
+LL -         span
+   |
+
+error: unnecessary use of `..` pattern in struct binding. All fields were already bound
+  --> tests/ui/rest_pat_in_fully_bound_structs.rs:155:9
+   |
+LL |     let Variant { .. } = variant;
+   |         ^^^^^^^^^^^^^^
+   |
+help: consider removing `..` from this binding
+   |
+LL -     let Variant { .. } = variant;
+LL +     let Variant {  } = variant;
+   |
+
+error: unnecessary use of `..` pattern in struct binding. All fields were already bound
+  --> tests/ui/rest_pat_in_fully_bound_structs.rs:159:9
+   |
+LL |         Variant { .. } => {},
+   |         ^^^^^^^^^^^^^^
+   |
+help: consider removing `..` from this binding
+   |
+LL -         Variant { .. } => {},
+LL +         Variant {  } => {},
+   |
+
+error: aborting due to 7 previous errors
 

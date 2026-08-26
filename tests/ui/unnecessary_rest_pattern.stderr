@@ -1,11 +1,75 @@
 error: unnecessary rest pattern (`..`)
-  --> tests/ui/unnecessary_rest_pattern.rs:42:9
+  --> tests/ui/unnecessary_rest_pattern.rs:59:9
+   |
+LL |         A { a: 5, b: 42, c: "", .. } => {}, // Lint
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `-D clippy::unnecessary-rest-pattern` implied by `-D warnings`
+   = help: to override `-D warnings` add `#[allow(clippy::unnecessary_rest_pattern)]`
+help: consider removing the unnecessary rest pattern (`..`)
+   |
+LL -         A { a: 5, b: 42, c: "", .. } => {}, // Lint
+LL +         A { a: 5, b: 42, c: "",  } => {}, // Lint
+   |
+
+error: unnecessary rest pattern (`..`)
+  --> tests/ui/unnecessary_rest_pattern.rs:61:9
+   |
+LL |         A { a: 0, b: 0, c: "", .. } => {}, // Lint
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+help: consider removing the unnecessary rest pattern (`..`)
+   |
+LL -         A { a: 0, b: 0, c: "", .. } => {}, // Lint
+LL +         A { a: 0, b: 0, c: "",  } => {}, // Lint
+   |
+
+error: unnecessary rest pattern (`..`)
+  --> tests/ui/unnecessary_rest_pattern.rs:68:9
+   |
+LL |         A { a: 0, b: 0, c: "", .. } => {}, // Lint
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+help: consider removing the unnecessary rest pattern (`..`)
+   |
+LL -         A { a: 0, b: 0, c: "", .. } => {}, // Lint
+LL +         A { a: 0, b: 0, c: "",  } => {}, // Lint
+   |
+
+error: unnecessary rest pattern (`..`)
+  --> tests/ui/unnecessary_rest_pattern.rs:49:13
+   |
+LL |             A { a: 0, b: 0, c: "", .. } => {},
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+LL |     foo!(a_struct);
+   |     -------------- in this macro invocation
+   |
+   = note: this error originates in the macro `foo` (in Nightly builds, run with -Z macro-backtrace for more info)
+help: consider removing the unnecessary rest pattern (`..`)
+   |
+LL -             A { a: 0, b: 0, c: "", .. } => {},
+LL +             A { a: 0, b: 0, c: "",  } => {},
+   |
+
+error: unnecessary rest pattern (`..`)
+  --> tests/ui/unnecessary_rest_pattern.rs:94:9
+   |
+LL |         B { a: 0, b: 0, c: 128, .. } => {}, // No Lint
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+help: consider removing the unnecessary rest pattern (`..`)
+   |
+LL -         B { a: 0, b: 0, c: 128, .. } => {}, // No Lint
+LL +         B { a: 0, b: 0, c: 128,  } => {}, // No Lint
+   |
+
+error: unnecessary rest pattern (`..`)
+  --> tests/ui/unnecessary_rest_pattern.rs:100:9
    |
 LL |     let S { a, b, c, .. } = s;
    |         ^^^^^^^^^^^^^^^^^
    |
-   = note: `-D clippy::unnecessary-rest-pattern` implied by `-D warnings`
-   = help: to override `-D warnings` add `#[allow(clippy::unnecessary_rest_pattern)]`
 help: consider removing the unnecessary rest pattern (`..`)
    |
 LL -     let S { a, b, c, .. } = s;
@@ -13,7 +77,7 @@ LL +     let S { a, b, c,  } = s;
    |
 
 error: unnecessary rest pattern (`..`)
-  --> tests/ui/unnecessary_rest_pattern.rs:49:9
+  --> tests/ui/unnecessary_rest_pattern.rs:107:9
    |
 LL |         E::B { b1, b2, .. } => (),
    |         ^^^^^^^^^^^^^^^^^^^
@@ -25,7 +89,7 @@ LL +         E::B { b1, b2,  } => (),
    |
 
 error: unnecessary rest pattern (`..`)
-  --> tests/ui/unnecessary_rest_pattern.rs:51:9
+  --> tests/ui/unnecessary_rest_pattern.rs:109:9
    |
 LL |         E::C { .. } => (),
    |         ^^^^^^^^^^^
@@ -37,7 +101,7 @@ LL +         E::C {  } => (),
    |
 
 error: unnecessary rest pattern (`..`)
-  --> tests/ui/unnecessary_rest_pattern.rs:84:9
+  --> tests/ui/unnecessary_rest_pattern.rs:142:9
    |
 LL |     let LocalNonExhaustive { field: _, .. } = ne;
    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -49,7 +113,7 @@ LL +     let LocalNonExhaustive { field: _,  } = ne;
    |
 
 error: unnecessary rest pattern (`..`)
-  --> tests/ui/unnecessary_rest_pattern.rs:97:9
+  --> tests/ui/unnecessary_rest_pattern.rs:155:9
    |
 LL |     let Variant { .. } = variant;
    |         ^^^^^^^^^^^^^^
@@ -61,7 +125,7 @@ LL +     let Variant {  } = variant;
    |
 
 error: unnecessary rest pattern (`..`)
-  --> tests/ui/unnecessary_rest_pattern.rs:101:9
+  --> tests/ui/unnecessary_rest_pattern.rs:159:9
    |
 LL |         Variant { .. } => {},
    |         ^^^^^^^^^^^^^^
@@ -72,5 +136,5 @@ LL -         Variant { .. } => {},
 LL +         Variant {  } => {},
    |
 
-error: aborting due to 6 previous errors
+error: aborting due to 11 previous errors
 

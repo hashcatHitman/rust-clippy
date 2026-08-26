@@ -1,6 +1,7 @@
 //@aux-build:proc_macros.rs
 //@aux-build:non-exhaustive-struct.rs
 #![warn(clippy::unnecessary_rest_pattern)]
+#![expect(clippy::struct_field_names)]
 #![allow(clippy::unneeded_wildcard_pattern)]
 
 use non_exhaustive_struct::{NonExhaustiveStruct, NonExhaustiveStructNoPrivateFields};
@@ -36,7 +37,64 @@ type Variant = VariantKind;
 
 struct VariantKind;
 
+struct A {
+    a: i32,
+    b: i64,
+    c: &'static str,
+}
+
+macro_rules! foo {
+    ($param:expr) => {
+        match $param {
+            A { a: 0, b: 0, c: "", .. } => {},
+            _ => {},
+        }
+    };
+}
+
 fn main() {
+    let a_struct = A { a: 5, b: 42, c: "A" };
+
+    match a_struct {
+        A { a: 5, b: 42, c: "", .. } => {}, // Lint
+        //~^ unnecessary_rest_pattern
+        A { a: 0, b: 0, c: "", .. } => {}, // Lint
+        //~^ unnecessary_rest_pattern
+        _ => {},
+    }
+
+    match a_struct {
+        A { a: 5, b: 42, .. } => {},
+        A { a: 0, b: 0, c: "", .. } => {}, // Lint
+        //~^ unnecessary_rest_pattern
+        _ => {},
+    }
+
+    // No lint
+    match a_struct {
+        A { a: 5, .. } => {},
+        A { a: 0, b: 0, .. } => {},
+        _ => {},
+    }
+
+    // No lint
+    foo!(a_struct);
+
+    #[non_exhaustive]
+    struct B {
+        a: u32,
+        b: u32,
+        c: u64,
+    }
+
+    let b_struct = B { a: 5, b: 42, c: 342 };
+
+    match b_struct {
+        B { a: 5, b: 42, .. } => {},
+        B { a: 0, b: 0, c: 128, .. } => {}, // No Lint
+        _ => {},
+    }
+
     let s = S { a: 1, b: 2, c: 3 };
 
     let S { a, b, c, .. } = s;
