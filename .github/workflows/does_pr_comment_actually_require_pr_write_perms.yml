@@ -1,0 +1,30 @@
+name: Test `gh pr comment` permission requirements
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  pull-requests: write
+
+jobs:
+  try_comment:
+    name: Try to comment on my PR
+    runs-on: ubuntu-latest
+    steps:
+      - name: Monitor Permissions Usage
+        uses: GitHubSecurityLab/actions-permissions/monitor@bf82d13b9b10051d224345ab9184f5ede0a94289 # v1.0.2-beta9
+      - name: Create comment
+        run: gh pr comment "${PR_NUM}" --body "Hello, World!" --edit-last --create-if-none
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          GITHUB_EVENT_WORKFLOW_RUN_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          PR_NUM: ${{ github.event.pull_request.number }}
+      - name: Update comment
+        run: gh pr comment "${PR_NUM}" --body "It's me, Commentery!" --edit-last
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          GITHUB_EVENT_WORKFLOW_RUN_HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          PR_NUM: ${{ github.event.pull_request.number }}
